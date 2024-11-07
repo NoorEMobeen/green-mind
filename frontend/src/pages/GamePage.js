@@ -1,8 +1,8 @@
 import React from 'react';
 import { Box, Button, Typography, IconButton, Grid } from '@mui/material';
-import { ArrowBack } from '@mui/icons-material';
+// import { ArrowBack } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
-import Sidebar from '../components/Sidebar';
+// import Sidebar from '../components/Sidebar';
 import { styles } from '../styles/GamePageStyles'; // Import styles from GamePageStyles.js
 
 const topics = [
@@ -18,13 +18,13 @@ const topics = [
 const GamePage = () => {
   const navigate = useNavigate();
 
-  const handleBack = () => navigate(-1);
+//   const handleBack = () => navigate(-1);
 
   return (
     <Box sx={styles.mainContent}> {/* Full-width container */}
-      <IconButton color="inherit" onClick={handleBack} sx={styles.backButton}>
+      {/* <IconButton color="inherit" onClick={handleBack} sx={styles.backButton}>
         <ArrowBack />
-      </IconButton>
+      </IconButton> */}
       <Typography sx={styles.gameTitle}>Games</Typography>
 
       {/* Game Topics */}

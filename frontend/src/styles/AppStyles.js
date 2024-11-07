@@ -30,7 +30,7 @@ export const styles = {
     mainContent: {
       flexGrow: 1,
       p: 3,
-      ml: { md: '240px' },
+      ml: { md: '0px' },
     },
   };
   
