@@ -27,7 +27,7 @@ function App() {
             <Route path="/" element={user ? <Navigate to="/game" /> : <Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/game" element={user ? <GamePage /> : <Navigate to="/" />} />
-            <Route path="/quiz" element={user ? <Quiz /> : <Navigate to="/" />} />
+            <Route path="/quiz/:category" element={user ? <Quiz /> : <Navigate to="/" />} />
             <Route path="/articles" element={user ? <Articles /> : <Navigate to="/" />} />
             <Route path="/leaderboard" element={user ? <Leaderboard /> : <Navigate to="/" />} />
             <Route path="/logout" element={<Navigate to="/" />} /> {/* Redirect for logout */}

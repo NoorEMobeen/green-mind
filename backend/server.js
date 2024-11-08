@@ -16,12 +16,12 @@ app.use(express.json());
 app.use(logger);
 
 // Connect to MongoDB
-mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect(process.env.MONGO_URI)
     .then(() => console.log('MongoDB connected'))
     .catch((error) => console.log('MongoDB connection error:', error));
 
 // Routes
-app.use('/api/quiz', quizRouter);
+app.use('/api/quizzes', quizRouter);
 app.use('/api/users', userRoutes);
 
 

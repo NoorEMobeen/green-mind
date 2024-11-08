@@ -32,7 +32,7 @@ const NavBar = () => {
         {/* Desktop Buttons */}
         <Box sx={{ display: { xs: 'none', md: 'flex' }, gap: 2 }}>
           <Button color="inherit" onClick={() => handleNavigation('/game')}>Main Page</Button>
-          <Button color="inherit" onClick={() => handleNavigation('/quiz')}>Quiz</Button>
+          {/* <Button color="inherit" onClick={() => handleNavigation('/quiz')}>Quiz</Button> */}
           <Button color="inherit" onClick={() => handleNavigation('/articles')}>Articles</Button>
           <Button color="inherit" onClick={() => handleNavigation('/leaderboard')}>Leaderboard</Button>
           <Button color="inherit" onClick={() => handleNavigation('/logout')}>Logout</Button>
@@ -61,7 +61,7 @@ const NavBar = () => {
           }}
         >
           <MenuItem onClick={() => handleNavigation('/game')}>Main Page</MenuItem>
-          <MenuItem onClick={() => handleNavigation('/quiz')}>Quiz</MenuItem>
+          {/* <MenuItem onClick={() => handleNavigation('/quiz')}>Quiz</MenuItem> */}
           <MenuItem onClick={() => handleNavigation('/articles')}>Articles</MenuItem>
           <MenuItem onClick={() => handleNavigation('/leaderboard')}>Leaderboard</MenuItem>
           <MenuItem onClick={() => handleNavigation('/logout')}>Logout</MenuItem>

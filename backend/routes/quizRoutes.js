@@ -1,11 +1,13 @@
+// routes/quizRoutes.js
 const express = require('express');
 const router = express.Router();
-const Quiz = require('../models/Quiz');
+const { getQuizByCategory } = require('../controllers/quizController');
 
-router.get('/', async (req, res) => {
-    // const questions = await Quiz.find();
-    // console.log(questions);
-    res.json({message:"working"});
+router.get('/', () => {
+    console.log("Route is working");
+    next();
 });
+// Route to get a quiz by category
+router.get('/:categoryId', getQuizByCategory);
 
 module.exports = router;
