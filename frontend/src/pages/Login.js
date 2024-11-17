@@ -16,6 +16,7 @@ const Login = () => {
         try {
             const response = await api.post('/users/login', { username, password });
             setUser(response.data.user); // Store user in context
+            localStorage.setItem('user', JSON.stringify(response.data.user)); // Store user in local storage
             navigate('/game'); // Redirect to game page on successful login
         } catch (err) {
             setError(err.response?.data?.error || 'Login failed');

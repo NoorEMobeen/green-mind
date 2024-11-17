@@ -18,6 +18,8 @@ import {
   AlertContainer,
 } from '../styles/QuizPageStyles';
 import { CircularProgress, Alert } from '@mui/material';
+import QuizFinishModal from '../components/QuizFinishModal';
+import { useNavigate } from 'react-router-dom';
 
 const QuizPage = () => {
   const { category } = useParams();
@@ -27,6 +29,28 @@ const QuizPage = () => {
   const [isCorrect, setIsCorrect] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [isModalOpen, setModalOpen] = useState(false);
+  const [score, setScore] = useState(0);
+  const navigate = useNavigate();
+
+  const handleQuizFinish = () => {
+    setModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setModalOpen(false);
+  };
+
+  const handleGoToLeaderboard = () => {
+    // Navigate to leaderboard page
+    navigate('/leaderboard');
+  };
+
+  const handleGoToMainPage = () => {
+    // Navigate to main page
+    navigate('/');
+  };
+
 
   useEffect(() => {
     const fetchQuiz = async () => {
@@ -47,7 +71,14 @@ const QuizPage = () => {
   const handleAnswerSelection = (answer) => {
     const correctAnswer = quiz.questions[currentQuestionIndex].answer;
     setSelectedAnswer(answer);
-    setIsCorrect(answer === correctAnswer);
+
+    if (answer === correctAnswer) {
+      setIsCorrect(true);
+      setScore((prevScore) => prevScore + 1); // Increment score for a correct answer
+    } else {
+      setIsCorrect(false);
+    }
+    // setIsCorrect(answer === correctAnswer);
   };
 
   const handleNextQuestion = () => {
@@ -93,7 +124,19 @@ const QuizPage = () => {
           <FinalMessage>Quiz Complete! Well done.</FinalMessage>
         )}
       </QuestionContainer>
+      
+    <button onClick={handleQuizFinish}>Finish Quiz</button>
+    <QuizFinishModal
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
+        onLeaderboard={handleGoToLeaderboard}
+        onMainPage={handleGoToMainPage}
+        category={category}
+        score={score}
+      />
     </QuizContainer>
+    
+
   );
 };
 

@@ -4,6 +4,8 @@ const cors = require('cors');
 const dotenv = require('dotenv');
 const quizRouter = require('./routes/quizRoutes');
 const userRoutes = require('./routes/userRoutes');
+const articleRoute = require('./routes/articleRoute');
+const leaderboardRoute = require('./routes/leaderboardRoutes');
 const logger = require('./middlewares/logger');
 const authentication = require('./middlewares/authentication');
 
@@ -23,6 +25,8 @@ mongoose.connect(process.env.MONGO_URI)
 // Routes
 app.use('/api/quizzes', quizRouter);
 app.use('/api/users', userRoutes);
+app.use('/api/articles', articleRoute);
+app.use('/api/leaderboard', leaderboardRoute);
 
 
 const PORT = process.env.PORT || 5000;

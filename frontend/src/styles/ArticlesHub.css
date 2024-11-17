@@ -1,0 +1,71 @@
+/* src/styles/ArticlesHub.css */
+
+.articles-hub {
+    text-align: center;
+    padding: 2rem;
+    background-color: #f0f5f3;
+    color: #2b4728;
+  }
+  
+  .articles-hub h1 {
+    font-size: 2.5rem;
+    color: #2e7d32;
+    margin-bottom: 0.5rem;
+  }
+  
+  .articles-hub p {
+    font-size: 1.2rem;
+    color: #4a4a4a;
+    margin-bottom: 2rem;
+  }
+  
+  .articles-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+  }
+  
+  .article-card {
+    max-height: 400px;
+    max-width: 400px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .article-card:hover {
+    transform: scale(1.03);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  
+  .image-container {
+    margin: 10px;
+  }
+  
+  .card-image {
+    width: 100%;
+    height: 100%;
+    border-radius: 20px;
+    object-fit: cover;
+  }
+  
+  .card-content {
+    padding: 1rem;
+    text-align: left;
+  }
+  
+  .card-content h2 {
+    font-size: 1.5rem;
+    color: #2e7d32;
+    margin: 0 0 0.5rem;
+  }
+  
+  .card-content p {
+    font-size: 1rem;
+    color: #4a4a4a;
+  }
+  

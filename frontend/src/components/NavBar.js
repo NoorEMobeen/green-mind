@@ -1,11 +1,13 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { AppBar, Toolbar, Typography, IconButton, Button, Box, Menu, MenuItem } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
+import { UserContext } from '../context/UserContext';
 
 const NavBar = () => {
   const [anchorEl, setAnchorEl] = useState(null);
+  const {user, setUser} = useContext(UserContext);
   const navigate = useNavigate();
 
   const handleMenuOpen = (event) => {
@@ -35,7 +37,11 @@ const NavBar = () => {
           {/* <Button color="inherit" onClick={() => handleNavigation('/quiz')}>Quiz</Button> */}
           <Button color="inherit" onClick={() => handleNavigation('/articles')}>Articles</Button>
           <Button color="inherit" onClick={() => handleNavigation('/leaderboard')}>Leaderboard</Button>
-          <Button color="inherit" onClick={() => handleNavigation('/logout')}>Logout</Button>
+          <Button color="inherit" onClick={() =>{
+            setUser(undefined);
+            window.location.href = "/";
+            // handleNavigation('/logout')
+          } }>Logout</Button>
         </Box>
 
         {/* Mobile Menu Icon */}

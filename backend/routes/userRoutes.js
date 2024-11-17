@@ -43,20 +43,20 @@ router.post('/login', async (req, res) => {
             return res.status(400).json({ error: 'Invalid username or password' });
         }
 
-        res.json({ message: 'Login successful', user: { username: user.username, email: user.email } });
+        res.json({ message: 'Login successful', user: user });
     } catch (error) {
         res.status(500).json({ error: 'Login failed' });
     }
 });
 
 // Get leaderboard
-router.get('/leaderboard', async (req, res) => {
-    try {
-        const leaderboard = await User.find().sort({ score: -1 }).select('username score');
-        res.json(leaderboard);
-    } catch (error) {
-        res.status(500).json({ error: 'Failed to fetch leaderboard' });
-    }
-});
+// router.get('/leaderboard', async (req, res) => {
+//     try {
+//         const leaderboard = await User.find().sort({ score: -1 }).select('username score');
+//         res.json(leaderboard);
+//     } catch (error) {
+//         res.status(500).json({ error: 'Failed to fetch leaderboard' });
+//     }
+// });
 
 module.exports = router;
