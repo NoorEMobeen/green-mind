@@ -85,18 +85,17 @@ export const OptionBox = styled.button`
 //   }
 // `;
 
-
 export const CorrectOption = {
-    backgroundColor: '#d4f7d4',
-    border: '2px solid #4caf50',
-    color: '#4caf50',
-  };
-  
-  export const IncorrectOption = {
-    backgroundColor: '#f7d4d4',
-    border: '2px solid #f44336',
-    color: '#f44336',
-  };
+  backgroundColor: '#d4f7d4',
+  border: '2px solid #4caf50',
+  color: '#4caf50',
+};
+
+export const IncorrectOption = {
+  backgroundColor: '#f7d4d4',
+  border: '2px solid #f44336',
+  color: '#f44336',
+};
 
 export const NextButton = styled.button`
   margin-top: 20px;
@@ -129,4 +128,3 @@ export const AlertContainer = styled.div`
   max-width: 600px;
   margin: auto;
 `;
-

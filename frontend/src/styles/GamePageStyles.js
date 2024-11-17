@@ -1,5 +1,11 @@
 import { styled } from '@mui/material/styles';
-import { Box, Card, Typography, CardActionArea, CardContent } from '@mui/material';
+import {
+  Box,
+  Card,
+  Typography,
+  CardActionArea,
+  CardContent,
+} from '@mui/material';
 
 export const Root = styled(Box)({
   padding: '32px',

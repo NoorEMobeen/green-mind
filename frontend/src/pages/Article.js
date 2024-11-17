@@ -13,7 +13,9 @@ const Article = () => {
   useEffect(() => {
     const fetchArticle = async () => {
       try {
-        const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/articles/${category}`);
+        const response = await axios.get(
+          `${process.env.REACT_APP_API_URL}/api/articles/${category}`
+        );
         setArticle(response.data);
         setLoading(false);
       } catch (error) {
@@ -43,12 +45,25 @@ const Article = () => {
         {article.title}
       </motion.h1>
 
-      <motion.div className="article-sections" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+      <motion.div
+        className="article-sections"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+      >
         {article.sections.map((section, index) => (
-          <Card key={index} className="section" component={motion.div} whileHover={{ scale: 1.02 }}>
+          <Card
+            key={index}
+            className="section"
+            component={motion.div}
+            whileHover={{ scale: 1.02 }}
+          >
             <CardContent>
-              <Typography variant="h5" component="h2">{section.heading}</Typography>
-              <Typography variant="body1" paragraph>{section.text}</Typography>
+              <Typography variant="h5" component="h2">
+                {section.heading}
+              </Typography>
+              <Typography variant="body1" paragraph>
+                {section.text}
+              </Typography>
               {section.imageUrl && (
                 <motion.img
                   src={section.imageUrl}
@@ -69,7 +84,9 @@ const Article = () => {
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.5 }}
       >
-        <Typography variant="h5" component="h2">Tips for Sustainability</Typography>
+        <Typography variant="h5" component="h2">
+          Tips for Sustainability
+        </Typography>
         <ul>
           {article.tips.map((tip, index) => (
             <li key={index}>{tip}</li>
@@ -84,7 +101,9 @@ const Article = () => {
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5 }}
         >
-          <Typography variant="h5" component="h2">Watch and Learn</Typography>
+          <Typography variant="h5" component="h2">
+            Watch and Learn
+          </Typography>
           <iframe
             src={article.videoUrl}
             title="Educational Video"
@@ -175,7 +194,6 @@ export default Article;
 // };
 
 // export default Article;
-
 
 // // import React from 'react';
 // // import { useParams } from 'react-router-dom';

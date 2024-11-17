@@ -22,7 +22,6 @@ const GamePage = () => {
     navigate(`/quiz/${category.title.toLowerCase().replace(/ /g, '-')}`);
   };
 
-
   return (
     <Root>
       <Title variant="h4" gutterBottom>
@@ -36,9 +35,7 @@ const GamePage = () => {
               <ActionArea>
                 <CardContentBox>
                   {category.icon}
-                  <CardTitle variant="h6">
-                    {category.title}
-                  </CardTitle>
+                  <CardTitle variant="h6">{category.title}</CardTitle>
                 </CardContentBox>
               </ActionArea>
             </StyledCard>

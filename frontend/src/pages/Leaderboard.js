@@ -1,5 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { Container, Typography, Box, Grid, Card, CardContent } from '@mui/material';
+import {
+  Container,
+  Typography,
+  Box,
+  Grid,
+  Card,
+  CardContent,
+} from '@mui/material';
 import axios from 'axios';
 import '../styles/LeaderboardStyles.css'; // Custom styles
 
@@ -10,12 +17,14 @@ const Leaderboard = () => {
   useEffect(() => {
     const fetchLeaderboard = async () => {
       try {
-        const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/leaderboard`);
+        const response = await axios.get(
+          `${process.env.REACT_APP_API_URL}/api/leaderboard`
+        );
         setLeaderboard(response.data);
 
         // Simulate fetching logged-in user
         const user = JSON.parse(localStorage.getItem('user'));
-        setCurrentUser(user || { username: "Guest", totalScore: 0 });
+        setCurrentUser(user || { username: 'Guest', totalScore: 0 });
       } catch (error) {
         console.error('Error fetching leaderboard:', error);
       }
@@ -34,7 +43,9 @@ const Leaderboard = () => {
       {currentUser && (
         <Box className="current-user-box">
           <Typography variant="h5">Welcome, {currentUser?.username}</Typography>
-          <Typography variant="body1">Your Total Score: {currentUser?.scores?.totalScore || 0}</Typography>
+          <Typography variant="body1">
+            Your Total Score: {currentUser?.scores?.totalScore || 0}
+          </Typography>
         </Box>
       )}
 
@@ -47,7 +58,9 @@ const Leaderboard = () => {
                 <Typography variant="h6">
                   {index + 1}. {user?.username}
                 </Typography>
-                <Typography variant="body2">Total Score: {user?.scores?.totalScore}</Typography>
+                <Typography variant="body2">
+                  Total Score: {user?.scores?.totalScore}
+                </Typography>
               </CardContent>
             </Card>
           </Grid>

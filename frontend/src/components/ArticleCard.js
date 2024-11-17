@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import '../styles/ArticlesHub.css';
 
 const ArticleCard = ({ item }) => {
-//   const history = useHistory();
+  //   const history = useHistory();
   const navigate = useNavigate();
 
   const handleCardClick = () => {
@@ -14,8 +14,8 @@ const ArticleCard = ({ item }) => {
 
   return (
     <div className="article-card" onClick={handleCardClick}>
-        <div className='image-container'>
-      <img src={item.imageUrl} alt={item.title} className="card-image" />
+      <div className="image-container">
+        <img src={item.imageUrl} alt={item.title} className="card-image" />
       </div>
       <div className="card-content">
         <h2>{item.title}</h2>

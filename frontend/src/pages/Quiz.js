@@ -51,12 +51,13 @@ const QuizPage = () => {
     navigate('/');
   };
 
-
   useEffect(() => {
     const fetchQuiz = async () => {
       setLoading(true);
       try {
-        const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/quizzes/${category}`);
+        const response = await axios.get(
+          `${process.env.REACT_APP_API_URL}/api/quizzes/${category}`
+        );
         setQuiz(response.data);
         setLoading(false);
       } catch (error) {
@@ -87,8 +88,18 @@ const QuizPage = () => {
     setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
   };
 
-  if (loading) return <Loader><CircularProgress /></Loader>;
-  if (error) return <AlertContainer><Alert severity="error">{error}</Alert></AlertContainer>;
+  if (loading)
+    return (
+      <Loader>
+        <CircularProgress />
+      </Loader>
+    );
+  if (error)
+    return (
+      <AlertContainer>
+        <Alert severity="error">{error}</Alert>
+      </AlertContainer>
+    );
 
   const currentQuestion = quiz.questions[currentQuestionIndex];
 
@@ -96,7 +107,9 @@ const QuizPage = () => {
     <QuizContainer>
       <QuizTitle>Awesome Quiz Application</QuizTitle>
       <QuestionContainer>
-        <QuestionText>{currentQuestionIndex + 1}. {currentQuestion.question}</QuestionText>
+        <QuestionText>
+          {currentQuestionIndex + 1}. {currentQuestion.question}
+        </QuestionText>
         <OptionsContainer>
           {currentQuestion.options.map((option, index) => (
             <OptionBox
@@ -106,8 +119,8 @@ const QuizPage = () => {
                   ? option === currentQuestion.answer
                     ? CorrectOption
                     : option === selectedAnswer
-                    ? IncorrectOption
-                    : {}
+                      ? IncorrectOption
+                      : {}
                   : {}
               }
               onClick={() => handleAnswerSelection(option)}
@@ -120,13 +133,14 @@ const QuizPage = () => {
         {selectedAnswer && currentQuestionIndex < quiz.questions.length - 1 && (
           <NextButton onClick={handleNextQuestion}>Next Question</NextButton>
         )}
-        {currentQuestionIndex === quiz.questions.length - 1 && selectedAnswer && (
-          <FinalMessage>Quiz Complete! Well done.</FinalMessage>
-        )}
+        {currentQuestionIndex === quiz.questions.length - 1 &&
+          selectedAnswer && (
+            <FinalMessage>Quiz Complete! Well done.</FinalMessage>
+          )}
       </QuestionContainer>
-      
-    <button onClick={handleQuizFinish}>Finish Quiz</button>
-    <QuizFinishModal
+
+      <button onClick={handleQuizFinish}>Finish Quiz</button>
+      <QuizFinishModal
         isOpen={isModalOpen}
         onClose={handleCloseModal}
         onLeaderboard={handleGoToLeaderboard}
@@ -135,8 +149,6 @@ const QuizPage = () => {
         score={score}
       />
     </QuizContainer>
-    
-
   );
 };
 
