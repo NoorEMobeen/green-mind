@@ -13,18 +13,7 @@ const QuizFinishModal = ({
   score,
 }) => {
   const navigate = useNavigate();
-  // Map categories to article URLs
-  // const articleLinks = {
-  //   "Climate Change": "/articles/climate-change",
-  //   "Recycling": "/articles/recycling",
-  //   "Renewable Energy": "/articles/renewable-energy",
-  //   "Water Conservation": "/articles/water-conservation",
-  //   "Ocean": "/articles/ocean",
-  //   "Carbon Footprint": "/articles/carbon-footprint",
-  //   "Environment": "/articles/environment",
-  //   "Animals": "/articles/animals"
-  // };
-
+ 
   useEffect(() => {
     if (isOpen) {
       // Scroll to the top of the page when the modal opens

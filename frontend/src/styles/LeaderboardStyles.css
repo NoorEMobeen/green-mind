@@ -1,31 +1,123 @@
+/* General Container */
 .leaderboard-container {
   margin-top: 2rem;
-  text-align: center;
-  background-color: #f5f5f5;
   padding: 2rem;
-  border-radius: 8px;
+  background: linear-gradient(to bottom right, #f0fff4, #e8f5e9); /* Sustainable theme */
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
 }
 
+/* Title */
 .leaderboard-title {
-  color: #4caf50;
+  color: #2e7d32; /* Sustainable green */
+  font-weight: bold;
   margin-bottom: 1.5rem;
-  font-weight: bold;
 }
 
+/* Divider */
+.divider {
+  margin: 2rem 0;
+  background-color: #4caf50;
+  height: 2px;
+}
+
+/* Current User Section */
 .current-user-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
   margin-bottom: 2rem;
-  background: #e8f5e9;
-  padding: 1.5rem;
-  border-radius: 8px;
-  border: 1px solid #4caf50;
+  background: #e3f2fd;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.1);
 }
 
+.user-avatar {
+  background: #4caf50;
+  color: white;
+  width: 60px;
+  height: 60px;
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+/* Leaderboard Grid */
+.leaderboard-grid {
+  margin-top: 1rem;
+}
+
+/* User Card */
 .user-card {
-  border: 1px solid #d1c4e9;
-  background: #ede7f6;
-  text-align: left;
+  border-radius: 10px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.user-card h6 {
+.user-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2) !important;
+}
+
+/* Top Rank Icons */
+.ranking-icon {
+  width: 40px;
+  height: 40px;
+  margin-right: 10px;
+  animation: bounce 2s infinite; /* Example animation */
+}
+
+
+  .leaderboard-icon {
+    width: 80px;
+    height: 80px;
+    margin-right: 10px;
+    animation: bounce 2s infinite; /* Example animation */
+  }
+
+
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+/* Rank Avatar for Others */
+.rank-avatar {
+  background: #673ab7;
+  color: white;
+  font-size: 1.2rem;
   font-weight: bold;
+}
+
+/* Username */
+.username {
+  font-weight: bold;
+  font-size: 1.1rem;
+  color: #2e7d32; /* Sustainable green */
+}
+
+/* User Score */
+.user-score {
+  color: #424242;
+  font-size: 0.9rem;
+}
+
+/* Loading Screen */
+.loader-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+.loader-text {
+  margin-top: 1rem;
+  color: #757575;
+  font-size: 1.2rem;
 }

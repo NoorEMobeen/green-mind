@@ -1,29 +1,26 @@
 // QuizPage.js
-
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import {
   QuizContainer,
-  QuizTitle,
-  QuestionContainer,
+  QuizHeader,
+  QuestionSection,
   QuestionText,
-  OptionsContainer,
-  OptionBox,
-  CorrectOption,
-  IncorrectOption,
-  NextButton,
-  FinalMessage,
-  Loader,
-  AlertContainer,
+  OptionButton,
+  OptionWrapper,
+  FeedbackMessage,
+  NavigationButton,
+  LoaderWrapper,
+  ErrorMessage,
 } from '../styles/QuizPageStyles';
-import { CircularProgress, Alert } from '@mui/material';
+import { CircularProgress } from '@mui/material';
 import QuizFinishModal from '../components/QuizFinishModal';
-import { useNavigate } from 'react-router-dom';
 
 const QuizPage = () => {
   const { category } = useParams();
   const [quiz, setQuiz] = useState(null);
+  const [quizTitle, setQuizTitle] = useState('');
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState(null);
   const [isCorrect, setIsCorrect] = useState(null);
@@ -33,24 +30,6 @@ const QuizPage = () => {
   const [score, setScore] = useState(0);
   const navigate = useNavigate();
 
-  const handleQuizFinish = () => {
-    setModalOpen(true);
-  };
-
-  const handleCloseModal = () => {
-    setModalOpen(false);
-  };
-
-  const handleGoToLeaderboard = () => {
-    // Navigate to leaderboard page
-    navigate('/leaderboard');
-  };
-
-  const handleGoToMainPage = () => {
-    // Navigate to main page
-    navigate('/');
-  };
-
   useEffect(() => {
     const fetchQuiz = async () => {
       setLoading(true);
@@ -59,10 +38,10 @@ const QuizPage = () => {
           `${process.env.REACT_APP_API_URL}/api/quizzes/${category}`
         );
         setQuiz(response.data);
+        setQuizTitle(response.data.category); 
         setLoading(false);
-      } catch (error) {
-        console.error('Error fetching quiz:', error);
-        setError('Could not fetch quiz');
+      } catch (err) {
+        setError('Failed to load quiz. Please try again later.');
         setLoading(false);
       }
     };
@@ -72,79 +51,80 @@ const QuizPage = () => {
   const handleAnswerSelection = (answer) => {
     const correctAnswer = quiz.questions[currentQuestionIndex].answer;
     setSelectedAnswer(answer);
-
     if (answer === correctAnswer) {
       setIsCorrect(true);
-      setScore((prevScore) => prevScore + 1); // Increment score for a correct answer
+      setScore((prev) => prev + 1);
     } else {
       setIsCorrect(false);
     }
-    // setIsCorrect(answer === correctAnswer);
   };
 
   const handleNextQuestion = () => {
     setSelectedAnswer(null);
     setIsCorrect(null);
-    setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
+    setCurrentQuestionIndex((prev) => prev + 1);
   };
 
-  if (loading)
+  const handleQuizFinish = () => setModalOpen(true);
+
+  if (loading) {
     return (
-      <Loader>
+      <LoaderWrapper>
         <CircularProgress />
-      </Loader>
+      </LoaderWrapper>
     );
-  if (error)
-    return (
-      <AlertContainer>
-        <Alert severity="error">{error}</Alert>
-      </AlertContainer>
-    );
+  }
+
+  if (error) {
+    return <ErrorMessage>{error}</ErrorMessage>;
+  }
 
   const currentQuestion = quiz.questions[currentQuestionIndex];
 
   return (
     <QuizContainer>
-      <QuizTitle>Awesome Quiz Application</QuizTitle>
-      <QuestionContainer>
+      <QuizHeader>{quizTitle} Quiz</QuizHeader>
+      <QuestionSection>
         <QuestionText>
           {currentQuestionIndex + 1}. {currentQuestion.question}
         </QuestionText>
-        <OptionsContainer>
-          {currentQuestion.options.map((option, index) => (
-            <OptionBox
-              key={index}
-              style={
-                selectedAnswer
-                  ? option === currentQuestion.answer
-                    ? CorrectOption
-                    : option === selectedAnswer
-                      ? IncorrectOption
-                      : {}
-                  : {}
-              }
+        <OptionWrapper>
+          {currentQuestion.options.map((option, idx) => (
+            <OptionButton
+              key={idx}
               onClick={() => handleAnswerSelection(option)}
               disabled={selectedAnswer !== null}
+              isCorrect={selectedAnswer && option === currentQuestion.answer}
+              isIncorrect={selectedAnswer && option === selectedAnswer && option !== currentQuestion.answer}
             >
               {option}
-            </OptionBox>
+            </OptionButton>
           ))}
-        </OptionsContainer>
-        {selectedAnswer && currentQuestionIndex < quiz.questions.length - 1 && (
-          <NextButton onClick={handleNextQuestion}>Next Question</NextButton>
+        </OptionWrapper>
+        {selectedAnswer && (
+          <FeedbackMessage isCorrect={isCorrect}>
+            {isCorrect ? 'Correct! 🎉' : 'Oops! That’s incorrect.'}
+          </FeedbackMessage>
         )}
-        {currentQuestionIndex === quiz.questions.length - 1 &&
-          selectedAnswer && (
-            <FinalMessage>Quiz Complete! Well done.</FinalMessage>
-          )}
-      </QuestionContainer>
-
-      <button onClick={handleQuizFinish}>Finish Quiz</button>
+      </QuestionSection>
+      {selectedAnswer && (
+        <NavigationButton
+          onClick={
+            currentQuestionIndex < quiz.questions.length - 1
+              ? handleNextQuestion
+              : handleQuizFinish
+          }
+        >
+          {currentQuestionIndex < quiz.questions.length - 1
+            ? 'Next Question'
+            : 'Finish Quiz'}
+        </NavigationButton>
+      )}
       <QuizFinishModal
         isOpen={isModalOpen}
-        onClose={handleCloseModal}
-        onLeaderboard={handleGoToLeaderboard}
-        onMainPage={handleGoToMainPage}
+        onClose={() => setModalOpen(false)}
+        onMainPage={() => navigate('/')}
+        onLeaderboard={() => navigate('/leaderboard')}
         category={category}
         score={score}
       />

@@ -12,7 +12,11 @@ exports.getQuizByCategory = async (req, res) => {
       return res.status(404).json({ message: 'Quiz not found' });
     }
 
-    res.status(200).json(quiz);
+    res.status(200).json({
+      categoryId: quiz.categoryId, // The slug (e.g., "water-conservation")
+      category: quiz.category, // The readable name (e.g., "Water Conservation Quiz")
+      questions: quiz.questions,
+    });
   } catch (error) {
     console.error('Error fetching quiz:', error);
     res.status(500).json({ message: 'Server error' });

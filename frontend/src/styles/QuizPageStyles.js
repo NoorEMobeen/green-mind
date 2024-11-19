@@ -1,130 +1,95 @@
 // QuizPageStyles.js
+import styled, { css } from 'styled-components';
 
-import styled from 'styled-components';
-
+// General container for the quiz
 export const QuizContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  max-width: 800px;
+  margin: auto;
   padding: 20px;
-  background-color: #f0f4ff;
-  border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-`;
-
-export const QuizTitle = styled.h2`
-  font-size: 2em;
-  color: #333;
-  margin-bottom: 20px;
-`;
-
-export const QuestionContainer = styled.div`
-  width: 100%;
-  max-width: 600px;
-  background: white;
-  padding: 20px;
+  background-color: #f8f9fa;
   border-radius: 10px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  text-align: center;
+`;
+
+// Header title of the quiz
+export const QuizHeader = styled.h1`
+  font-size: 2rem;
+  color: #4caf50;
   margin-bottom: 20px;
 `;
 
-export const QuestionText = styled.h3`
-  font-size: 1.5em;
-  color: #333;
-  margin-bottom: 15px;
+// Section containing question and options
+export const QuestionSection = styled.div`
+  margin-bottom: 30px;
 `;
 
-export const OptionsContainer = styled.div`
+// Question text
+export const QuestionText = styled.h2`
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+  color: #333;
+`;
+
+// Wrapper for options
+export const OptionWrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
 `;
 
-export const OptionBox = styled.button`
-  padding: 10px 20px;
-  font-size: 1em;
-  background: #e6e9f4;
-  border: 2px solid #e6e9f4;
+// Individual option button
+export const OptionButton = styled.button`
+  background: ${(props) => (props.isCorrect ? '#d4edda' : props.isIncorrect ? '#f8d7da' : '#ffffff')};
+  border: ${(props) => (props.isCorrect ? '2px solid #28a745' : props.isIncorrect ? '2px solid #dc3545' : '2px solid #dee2e6')};
   border-radius: 8px;
-  cursor: pointer;
-  transition: all 0.3s ease;
+  padding: 10px 20px;
+  font-size: 1rem;
+  cursor: ${(props) => (props.disabled ? 'not-allowed' : 'pointer')};
+  color: ${(props) => (props.isCorrect ? '#28a745' : props.isIncorrect ? '#dc3545' : '#333')};
+  transition: background-color 0.3s ease, transform 0.2s ease;
+
   &:hover {
-    background-color: #d4d9e6;
-  }
-  &:disabled {
-    cursor: not-allowed;
-    opacity: 0.7;
+    transform: ${(props) => (props.disabled ? 'none' : 'scale(1.02)')};
+    background-color: ${(props) => (props.disabled ? 'none' : '#e9ecef')};
   }
 `;
 
-// export const CorrectOption = styled(OptionBox)`
-//   background-color: #d4f7d4 !important;
-//   border: 2px solid #4caf50;
-//   color: #4caf50;
-//   position: relative;
-//   &:after {
-//     content: '✓';
-//     position: absolute;
-//     right: 15px;
-//     color: #4caf50;
-//     font-size: 1.2em;
-//   }
-// `;
+// Feedback message (correct or incorrect)
+export const FeedbackMessage = styled.p`
+  font-size: 1.2rem;
+  color: ${(props) => (props.isCorrect ? '#28a745' : '#dc3545')};
+  margin-top: 15px;
+`;
 
-// export const IncorrectOption = styled(OptionBox)`
-//   background-color: #f7d4d4 !important;
-//   border: 2px solid #f44336;
-//   color: #f44336;
-//   position: relative;
-//   &:after {
-//     content: '✗';
-//     position: absolute;
-//     right: 15px;
-//     color: #f44336;
-//     font-size: 1.2em;
-//   }
-// `;
-
-export const CorrectOption = {
-  backgroundColor: '#d4f7d4',
-  border: '2px solid #4caf50',
-  color: '#4caf50',
-};
-
-export const IncorrectOption = {
-  backgroundColor: '#f7d4d4',
-  border: '2px solid #f44336',
-  color: '#f44336',
-};
-
-export const NextButton = styled.button`
-  margin-top: 20px;
-  padding: 10px 20px;
-  font-size: 1em;
-  background-color: #2196f3;
+// Navigation button (Next/Finish)
+export const NavigationButton = styled.button`
+  background-color: #007bff;
   color: white;
   border: none;
+  padding: 12px 25px;
+  font-size: 1rem;
   border-radius: 5px;
   cursor: pointer;
+  margin-top: 20px;
+  transition: background-color 0.3s;
+
   &:hover {
-    background-color: #1976d2;
+    background-color: #0056b3;
   }
 `;
 
-export const FinalMessage = styled.p`
-  font-size: 1.2em;
-  color: #333;
-`;
-
-export const Loader = styled.div`
+// Loader wrapper
+export const LoaderWrapper = styled.div`
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
   height: 300px;
 `;
 
-export const AlertContainer = styled.div`
-  width: 100%;
-  max-width: 600px;
-  margin: auto;
+// Error message for failed loading
+export const ErrorMessage = styled.p`
+  font-size: 1.2rem;
+  color: #dc3545;
+  text-align: center;
 `;
