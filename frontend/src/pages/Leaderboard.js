@@ -13,16 +13,28 @@ import {
 } from '@mui/material';
 import axios from 'axios';
 import '../styles/LeaderboardStyles.css';
-import goldCup from '../images/1st-prize.png'; // Example animated GIF
-import silverCup from '../images/2nd-place.png'; // Example animated GIF
-import bronzeCup from '../images/bronze-cup.png'; // Example animated GIF
-import leadercup from '../images/winner.png'; // Example animated GIF
+import goldCup from '../images/1st-prize.png';
+import silverCup from '../images/2nd-place.png';
+import bronzeCup from '../images/bronze-cup.png';
+import fallbackIcon from '../images/participant.png'; // Fallback icon for non-top scorers
+import leaderCup from '../images/winner.png';
 import { Title } from '../styles/GamePageStyles';
+import { throttle } from 'lodash';
 
 const Leaderboard = () => {
   const [leaderboard, setLeaderboard] = useState([]);
   const [currentUser, setCurrentUser] = useState(null);
   const [loading, setLoading] = useState(true);
+
+
+  useEffect(() => {
+    const handleScroll = throttle(() => {
+      console.log('Scroll event throttled');
+    }, 200);
+  
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   useEffect(() => {
     const fetchLeaderboard = async () => {
@@ -61,10 +73,11 @@ const Leaderboard = () => {
     <Container maxWidth="lg" className="leaderboard-container">
       <Typography variant="h3" className="leaderboard-title">
         <img 
-             src={leadercup}
-             alt="leader board"
-             className="leaderboard-icon"
-         /><Title  variant="h4" gutterBottom> Global Leaderboard </Title> 
+          src={leaderCup}
+          alt="Leaderboard Icon"
+          className="leaderboard-icon"
+        />
+    <Title  variant="h4" gutterBottom>  Global Leaderboard </Title>
       </Typography>
 
       {/* Current User Section */}
@@ -83,63 +96,70 @@ const Leaderboard = () => {
       <Divider className="divider" />
 
       {/* Leaderboard List */}
-      <Grid container spacing={4} className="leaderboard-grid">
-        {leaderboard
-          .sort((a, b) => b.scores.totalScore - a.scores.totalScore)
-          .map((user, index) => (
-            <Grid item xs={12} sm={6} md={4} key={user._id}>
-              <Card
-                className={`user-card ${
-                  index === 0
-                    ? 'gold-card'
-                    : index === 1
-                    ? 'silver-card'
-                    : index === 2
-                    ? 'bronze-card'
-                    : ''
-                }`}
-                elevation={5}
-              >
-                <CardContent>
-                  <Box className="user-rank">
-                    {index === 0 && (
+    {/* Leaderboard List */}
+    <Grid container spacing={4} className="leaderboard-grid">
+      {leaderboard
+        .sort((a, b) => b.scores.totalScore - a.scores.totalScore)
+        .map((user, index) => (
+          <Grid item xs={12} sm={6} md={4} key={user._id}>
+            <Card
+              className={`user-card ${
+                index === 0
+                  ? 'gold-card'
+                  : index === 1
+                  ? 'silver-card'
+                  : index === 2
+                  ? 'bronze-card'
+                  : 'fallback-card'
+              }`}
+              elevation={5}
+            >
+              <CardContent>
+                <Box className="user-rank">
+                  {/* Top 3 Ranks */}
+                  {index === 0 && (
+                    <img
+                      src={goldCup}
+                      alt="Gold Cup"
+                      className="ranking-icon"
+                    />
+                  )}
+                  {index === 1 && (
+                    <img
+                      src={silverCup}
+                      alt="Silver Cup"
+                      className="ranking-icon"
+                    />
+                  )}
+                  {index === 2 && (
+                    <img
+                      src={bronzeCup}
+                      alt="Bronze Cup"
+                      className="ranking-icon"
+                    />
+                  )}
+                  {/* Fallback for non-top scorers */}
+                  {index > 2 && (
+                    <Tooltip title={`Rank: ${index + 1}`}>
                       <img
-                        src={goldCup}
-                        alt="Gold Cup"
-                        className="ranking-icon"
+                        src={fallbackIcon}
+                        alt="Participant Icon"
+                        className="fallback-icon"
                       />
-                    )}
-                    {index === 1 && (
-                      <img
-                        src={silverCup}
-                        alt="Silver Cup"
-                        className="ranking-icon"
-                      />
-                    )}
-                    {index === 2 && (
-                      <img
-                        src={bronzeCup}
-                        alt="Bronze Cup"
-                        className="ranking-icon"
-                      />
-                    )}
-                    {index > 2 && (
-                      <Tooltip title={`Rank: ${index + 1}`}>
-                        <Avatar className="rank-avatar">{index + 1}</Avatar>
-                      </Tooltip>
-                    )}
-                    <Typography variant="h6" className="username">
-                      {user?.username}
-                    </Typography>
-                  </Box>
-                  <Typography variant="body2" className="user-score">
-                    Total Score: <strong>{user?.scores?.totalScore}</strong>
+                    </Tooltip>
+                  )}
+                  <Typography variant="h6" className="username">
+                    {user?.username}
                   </Typography>
-                </CardContent>
-              </Card>
-            </Grid>
-          ))}
-      </Grid>
+                </Box>
+                <Typography variant="body2" className="user-score">
+                  Total Score: <strong>{user?.scores?.totalScore}</strong>
+                </Typography>
+              </CardContent>
+            </Card>
+          </Grid>
+        ))}
+    </Grid>
     </Container>
   );
 };

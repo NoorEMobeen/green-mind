@@ -1,10 +1,6 @@
-// src/components/ArticlesHub.js
-
 import React from 'react';
 import ArticleCard from '../components/ArticleCard';
 import '../styles/ArticlesHub.css';
-// import { useEffect, useState } from 'react';
-// import axios from 'axios';
 
 const categories = [
   {
@@ -13,6 +9,7 @@ const categories = [
     description:
       'Learn about the challenges and actions we can take to address climate change. Read more...',
     imageUrl: '/images/climate-change.jpg',
+    
   },
   {
     category: 'recycling',
@@ -66,21 +63,6 @@ const categories = [
 ];
 
 const ArticlesHub = () => {
-  // const [categories, setCategories] = useState([]);
-
-  // useEffect(() => {
-  //     const loadCategories = async () => {
-  //       try {
-  //         const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/articles/categories`);
-  //         setCategories(response.data);
-  //       }
-  //         catch (error) {
-  //         console.error('Error fetching categories:', error);
-  //       }
-  //     };
-  //     loadCategories();
-
-  //   }, []);
 
   return (
     <div className="articles-hub">

@@ -2,7 +2,17 @@ import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '../api/axios'; // Axios instance
 import { UserContext } from '../context/UserContext';
-import { TextField, Button, Typography, Container, Box } from '@mui/material';
+import {
+  Container,
+  Box,
+  Typography,
+  TextField,
+  Button,
+  Avatar,
+  Alert,
+} from '@mui/material';
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import '../styles/LoginStyles.css'; // External styles for customization
 
 const Login = () => {
   const { setUser } = useContext(UserContext);
@@ -24,19 +34,30 @@ const Login = () => {
   };
 
   return (
-    <Container maxWidth="xs">
+    <Container maxWidth="xs" className="login-container">
       <Box
+        className="login-box"
+        display="flex"
+        flexDirection="column"
+        alignItems="center"
         sx={{
+          backgroundColor: 'white',
+          borderRadius: '12px',
+          boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
+          p: 4,
           mt: 8,
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
         }}
       >
-        <Typography component="h1" variant="h5">
-          Login
+        {/* Avatar Icon */}
+        <Avatar sx={{ m: 1, bgcolor: 'primary.main' }}>
+          <LockOutlinedIcon />
+        </Avatar>
+        <Typography component="h1" variant="h5" className="login-title">
+          Welcome Back!
         </Typography>
-        <Box component="form" onSubmit={handleLogin} sx={{ mt: 3 }}>
+
+        {/* Login Form */}
+        <Box component="form" onSubmit={handleLogin} sx={{ mt: 2, width: '100%' }}>
           <TextField
             label="Username"
             fullWidth
@@ -44,6 +65,7 @@ const Login = () => {
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             margin="normal"
+            autoComplete="username"
           />
           <TextField
             label="Password"
@@ -53,20 +75,25 @@ const Login = () => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             margin="normal"
+            autoComplete="current-password"
           />
-          {error && <Typography color="error">{error}</Typography>}
+          {error && <Alert severity="error" sx={{ mt: 2 }}>{error}</Alert>}
           <Button
             type="submit"
             fullWidth
             variant="contained"
             color="primary"
-            sx={{ mt: 2 }}
+            sx={{ mt: 3 }}
           >
             Login
           </Button>
         </Box>
-        <Button onClick={() => navigate('/register')} sx={{ mt: 2 }}>
-          Don't have an account? Register
+
+        <Button
+          onClick={() => navigate('/register')}
+          sx={{ mt: 2, color: 'primary.main' }}
+        >
+          Don’t have an account? <strong>Register</strong>
         </Button>
       </Box>
     </Container>
