@@ -9,7 +9,6 @@ import {
   Avatar,
   Divider,
   Tooltip,
-  CircularProgress,
 } from '@mui/material';
 import axios from 'axios';
 import '../styles/LeaderboardStyles.css';
@@ -20,6 +19,7 @@ import fallbackIcon from '../images/participant.png'; // Fallback icon for non-t
 import leaderCup from '../images/winner.png';
 import { Title } from '../styles/GamePageStyles';
 import { throttle } from 'lodash';
+import Loader from '../components/Loader';
 
 const Leaderboard = () => {
   const [leaderboard, setLeaderboard] = useState([]);
@@ -60,12 +60,13 @@ const Leaderboard = () => {
 
   if (loading) {
     return (
-      <Box className="loader-wrapper">
-        <CircularProgress size={60} />
-        <Typography variant="h6" className="loader-text">
-          Loading Leaderboard...
-        </Typography>
-      </Box>
+      <Loader message="Fetching data..."/>
+      // <Box className="loader-wrapper">
+      //   <CircularProgress size={60} />
+      //   <Typography variant="h6" className="loader-text">
+      //     <Loader message="Fetching data..." />
+      //   </Typography>
+      // </Box>
     );
   }
 

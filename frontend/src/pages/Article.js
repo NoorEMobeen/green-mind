@@ -4,6 +4,7 @@ import axios from 'axios';
 import { motion } from 'framer-motion';
 import { Card, CardContent, Typography } from '@mui/material';
 import '../styles/Article.css';
+import Loader from '../components/Loader';
 
 const Article = () => {
   const { category } = useParams();
@@ -27,7 +28,7 @@ const Article = () => {
   }, [category]);
 
   if (loading) {
-    return <div className="loading">Loading...</div>;
+    return <Loader message="Fetching Articles..."/>;
   }
 
   if (!article) {

@@ -12,6 +12,7 @@ import {
   AnimatedGif,
   Subtitle,
 } from '../styles/GamePageStyles';
+import triviagif from '../images/quiz.png';
 
 const GamePage = () => {
   const navigate = useNavigate();
@@ -26,7 +27,7 @@ const GamePage = () => {
       {/* Title Section with an Animated Gif */}
       <Box display="flex" flexDirection="column" alignItems="center" mb={4}>
         <AnimatedGif
-          src="https://media.giphy.com/media/26u4lOMA8JKSnL9Uk/giphy.gif"
+          src={triviagif}
           alt="Welcome Animation"
         />
         <Title variant="h4" gutterBottom>

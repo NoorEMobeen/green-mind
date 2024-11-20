@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, Suspense, lazy, useEffect, useState } from 'react';
 import "./App.css";
 import {
   BrowserRouter as Router,
@@ -7,56 +7,92 @@ import {
   Navigate,
 } from 'react-router-dom';
 import { UserContext } from './context/UserContext';
-import NavBar from './components/NavBar'; // Import new NavBar
+import NavBar from './components/NavBar'; 
 import Login from './pages/Login';
-import GamePage from './pages/GamePage';
-import Quiz from './pages/Quiz';
-import ArticlesHub from './pages/ArticlesHub';
 import Register from './pages/Register';
-import Leaderboard from './pages/Leaderboard';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { Box } from '@mui/material';
-import Article from './pages/Article';
+import Loader from './components/Loader';
+
+// Lazy load pages
+const GamePage = lazy(() => import('./pages/GamePage'));
+const Quiz = lazy(() => import('./pages/Quiz'));
+const ArticlesHub = lazy(() => import('./pages/ArticlesHub'));
+const Leaderboard = lazy(() => import('./pages/Leaderboard'));
+const Article = lazy(() => import('./pages/Article'));
+
 const theme = createTheme();
 
 function App() {
-  const { user } = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext); // Destructure UserContext for updating `user`
+  const [isAuthChecking, setIsAuthChecking] = useState(true); // Track user loading state
+
+  // Simulate checking user authentication
+  useEffect(() => {
+    const checkAuth = async () => {
+      try {
+        // Simulating an async check for user authentication
+        const storedUser = JSON.parse(localStorage.getItem('user')); // Retrieve user from local storage
+        if (storedUser) {
+          // Update user context with stored user data
+          setUser(storedUser);
+        } else {
+          // Handle unauthenticated state
+          setUser(null);
+        }
+      } catch (error) {
+        console.error("Error checking authentication:", error);
+        setUser(null); // Ensure `user` is set to null in case of errors
+      } finally {
+        setIsAuthChecking(false); // Stop showing loader after user check
+      }
+    };
+    checkAuth();
+  }, [setUser]);
+
+  // Show a loader while checking user authentication
+  if (isAuthChecking) {
+    return <Loader message="Checking authentication..." />;
+  }
 
   return (
     <ThemeProvider theme={theme}>
       <Router>
-        {/* NavBar at the top */}
+        {/* Render NavBar only if user is logged in */}
         {user && <NavBar />}
 
         <Box component="main" sx={{ mt: 8, px: 2 }}>
-          {' '}
-          {/* Main content padding */}
-          <Routes>
-            <Route
-              path="/"
-              element={user ? <Navigate to="/game" /> : <Login />}
-            />
-            <Route path="/register" element={<Register />} />
-            <Route
-              path="/game"
-              element={user ? <GamePage /> : <Navigate to="/" />}
-            />
-            <Route
-              path="/quiz/:category"
-              element={user ? <Quiz /> : <Navigate to="/" />}
-            />
-            <Route
-              path="/articles"
-              element={user ? <ArticlesHub /> : <Navigate to="/" />}
-            />
-            <Route path="/articles/:category" element={<Article />} />
-            <Route
-              path="/leaderboard"
-              element={user ? <Leaderboard /> : <Navigate to="/" />}
-            />
-            <Route path="/logout" element={<Navigate to="/" />} />{' '}
-            {/* Redirect for logout */}
-          </Routes>
+          <Suspense fallback={<Loader message="Loading content..." />}>
+            <Routes>
+              {/* Login or redirect */}
+              <Route
+                path="/"
+                element={user ? <Navigate to="/game" /> : <Login />}
+              />
+              <Route path="/register" element={<Register />} />
+              <Route
+                path="/game"
+                element={user ? <GamePage /> : <Navigate to="/" />}
+              />
+              <Route
+                path="/quiz/:category"
+                element={user ? <Quiz /> : <Navigate to="/" />}
+              />
+              <Route
+                path="/articles"
+                element={user ? <ArticlesHub /> : <Navigate to="/" />}
+              />
+              <Route
+                path="/articles/:category"
+                element={user ? <Article /> : <Navigate to="/" />}
+              />
+              <Route
+                path="/leaderboard"
+                element={user ? <Leaderboard /> : <Navigate to="/" />}
+              />
+              <Route path="/logout" element={<Navigate to="/" />} />
+            </Routes>
+          </Suspense>
         </Box>
       </Router>
     </ThemeProvider>
