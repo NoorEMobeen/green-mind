@@ -34,7 +34,6 @@ const Article = () => {
         console.error('Error fetching article:', error);
         if (error?.message === 'Network Error') {
           setIsOffline(true);
-         
           const cachedArticle = await getArticle(category);
           if (cachedArticle) {
             setArticle(cachedArticle);
