@@ -93,3 +93,15 @@ export const ErrorMessage = styled.p`
   color: #dc3545;
   text-align: center;
 `;
+export const FallbackWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 300px;
+  background-color: #fdf5f6;
+  border: 1px solid #f28b82;
+  padding: 20px;
+  border-radius: 12px;
+  text-align: center;
+`;

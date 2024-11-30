@@ -13,7 +13,7 @@ import Register from './pages/Register';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { Box } from '@mui/material';
 import Loader from './components/Loader';
-
+import 'react-toastify/dist/ReactToastify.css';
 // Lazy load pages
 const GamePage = lazy(() => import('./pages/GamePage'));
 const Quiz = lazy(() => import('./pages/Quiz'));
@@ -48,7 +48,7 @@ function App() {
       }
     };
     checkAuth();
-  }, [setUser]);
+  }, []);
 
   // Show a loader while checking user authentication
   if (isAuthChecking) {

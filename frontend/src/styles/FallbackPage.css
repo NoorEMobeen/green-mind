@@ -1,0 +1,36 @@
+.fallback-page {
+    text-align: center;
+    padding: 40px;
+    margin: 20px auto;
+    max-width: 600px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    background-color: #f7f7f7;
+  }
+  
+  .fallback-title {
+    font-size: 2rem;
+    color: #e53935;
+    margin-bottom: 20px;
+  }
+  
+  .fallback-message {
+    font-size: 1.2rem;
+    color: #424242;
+    margin-bottom: 30px;
+  }
+  
+  .fallback-link {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #388e3c;
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .fallback-link:hover {
+    background-color: #2e7d32;
+  }
+  

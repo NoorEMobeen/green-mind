@@ -11,11 +11,13 @@ import {
   OptionWrapper,
   FeedbackMessage,
   NavigationButton,
-  LoaderWrapper,
-  ErrorMessage,
 } from '../styles/QuizPageStyles';
-import { CircularProgress } from '@mui/material';
 import QuizFinishModal from '../components/QuizFinishModal';
+import { getQuiz, saveQuiz } from './../utils/db.ts';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import Loader from '../components/Loader.js';
+import FallbackPage from '../components/FallbackPage';
 
 const QuizPage = () => {
   const { category } = useParams();
@@ -28,6 +30,7 @@ const QuizPage = () => {
   const [error, setError] = useState(null);
   const [isModalOpen, setModalOpen] = useState(false);
   const [score, setScore] = useState(0);
+  const [isOffline, setIsOffline] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -38,10 +41,25 @@ const QuizPage = () => {
           `${process.env.REACT_APP_API_URL}/api/quizzes/${category}`
         );
         setQuiz(response.data);
-        setQuizTitle(response.data.category); 
+        setQuizTitle(response.data.category);
+        saveQuiz(response.data);
         setLoading(false);
       } catch (err) {
-        setError('Failed to load quiz. Please try again later.');
+        if (err?.message === 'Network Error') {
+          setIsOffline(true);
+          const cachedQuiz = await getQuiz(category);
+          if (cachedQuiz) {
+            setQuiz(cachedQuiz);
+            setQuizTitle(cachedQuiz?.category);
+            toast.info('You are offline. Loaded cached quiz.');
+          } else {
+            toast.error('Failed to load quiz. Please try again later.');
+            setError('Failed to load quiz. Please try again later.');
+          }
+        } else {
+          toast.error('Failed to load quiz. Please try again later.');
+          setError('Failed to load quiz. Please try again later.');
+        }
         setLoading(false);
       }
     };
@@ -68,67 +86,84 @@ const QuizPage = () => {
   const handleQuizFinish = () => setModalOpen(true);
 
   if (loading) {
-    return (
-      <LoaderWrapper>
-        <CircularProgress />
-      </LoaderWrapper>
-    );
+    return <Loader message="Fetching Quiz..." />;
   }
 
   if (error) {
-    return <ErrorMessage>{error}</ErrorMessage>;
+    return (
+      <div className="fallback-container">
+        <ToastContainer />
+        <FallbackPage
+          title="Quiz Not Found"
+          message={
+            isOffline
+              ? 'You are offline, and no cached quiz is available for this category.'
+              : 'The requested quiz could not be found. Please try again later.'
+          }
+          redirectTo="/game"
+          redirectText="Go Back to Main Menu"
+        />
+      </div>
+    );
   }
 
   const currentQuestion = quiz.questions[currentQuestionIndex];
 
   return (
-    <QuizContainer>
-      <QuizHeader>{quizTitle} Quiz</QuizHeader>
-      <QuestionSection>
-        <QuestionText>
-          {currentQuestionIndex + 1}. {currentQuestion.question}
-        </QuestionText>
-        <OptionWrapper>
-          {currentQuestion.options.map((option, idx) => (
-            <OptionButton
-              key={idx}
-              onClick={() => handleAnswerSelection(option)}
-              disabled={selectedAnswer !== null}
-              isCorrect={selectedAnswer && option === currentQuestion.answer}
-              isIncorrect={selectedAnswer && option === selectedAnswer && option !== currentQuestion.answer}
-            >
-              {option}
-            </OptionButton>
-          ))}
-        </OptionWrapper>
+    <>
+      <ToastContainer />
+      <QuizContainer>
+        <QuizHeader>{quizTitle} Quiz</QuizHeader>
+        <QuestionSection>
+          <QuestionText>
+            {currentQuestionIndex + 1}. {currentQuestion.question}
+          </QuestionText>
+          <OptionWrapper>
+            {currentQuestion.options.map((option, idx) => (
+              <OptionButton
+                key={idx}
+                onClick={() => handleAnswerSelection(option)}
+                disabled={selectedAnswer !== null}
+                isCorrect={selectedAnswer && option === currentQuestion.answer}
+                isIncorrect={
+                  selectedAnswer &&
+                  option === selectedAnswer &&
+                  option !== currentQuestion.answer
+                }
+              >
+                {option}
+              </OptionButton>
+            ))}
+          </OptionWrapper>
+          {selectedAnswer && (
+            <FeedbackMessage isCorrect={isCorrect}>
+              {isCorrect ? 'Correct! 🎉' : 'Oops! That’s incorrect.'}
+            </FeedbackMessage>
+          )}
+        </QuestionSection>
         {selectedAnswer && (
-          <FeedbackMessage isCorrect={isCorrect}>
-            {isCorrect ? 'Correct! 🎉' : 'Oops! That’s incorrect.'}
-          </FeedbackMessage>
+          <NavigationButton
+            onClick={
+              currentQuestionIndex < quiz.questions.length - 1
+                ? handleNextQuestion
+                : handleQuizFinish
+            }
+          >
+            {currentQuestionIndex < quiz.questions.length - 1
+              ? 'Next Question'
+              : 'Finish Quiz'}
+          </NavigationButton>
         )}
-      </QuestionSection>
-      {selectedAnswer && (
-        <NavigationButton
-          onClick={
-            currentQuestionIndex < quiz.questions.length - 1
-              ? handleNextQuestion
-              : handleQuizFinish
-          }
-        >
-          {currentQuestionIndex < quiz.questions.length - 1
-            ? 'Next Question'
-            : 'Finish Quiz'}
-        </NavigationButton>
-      )}
-      <QuizFinishModal
-        isOpen={isModalOpen}
-        onClose={() => setModalOpen(false)}
-        onMainPage={() => navigate('/')}
-        onLeaderboard={() => navigate('/leaderboard')}
-        category={category}
-        score={score}
-      />
-    </QuizContainer>
+        <QuizFinishModal
+          isOpen={isModalOpen}
+          onClose={() => setModalOpen(false)}
+          onMainPage={() => navigate('/')}
+          onLeaderboard={() => navigate('/leaderboard')}
+          category={category}
+          score={score}
+        />
+      </QuizContainer>
+    </>
   );
 };
 

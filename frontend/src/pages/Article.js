@@ -5,11 +5,15 @@ import { motion } from 'framer-motion';
 import { Card, CardContent, Typography } from '@mui/material';
 import '../styles/Article.css';
 import Loader from '../components/Loader';
+import { getArticle, saveArticle } from './../utils/db.ts';
+import { ToastContainer, toast } from 'react-toastify';
+import FallbackPage from '../components/FallbackPage';
 
 const Article = () => {
   const { category } = useParams();
   const [article, setArticle] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [isOffline, setIsOffline] = useState(false);
 
   useEffect(() => {
     const fetchArticle = async () => {
@@ -17,10 +21,28 @@ const Article = () => {
         const response = await axios.get(
           `${process.env.REACT_APP_API_URL}/api/articles/${category}`
         );
-        setArticle(response.data);
+        if (response.status === 200) {
+          await saveArticle(response.data);
+          setArticle(response.data);
+        } else {
+          console.log(
+            'ERROR: Failed to fetch article from server. Trying to fetch from cache.'
+          );
+        }
         setLoading(false);
       } catch (error) {
         console.error('Error fetching article:', error);
+        if (error?.message === 'Network Error') {
+          setIsOffline(true);
+         
+          const cachedArticle = await getArticle(category);
+          if (cachedArticle) {
+            setArticle(cachedArticle);
+            toast.info('You are offline. Loaded cached Article.');
+          }
+        } else {
+          toast.error('Failed to load article. Please try again later.');
+        }
         setLoading(false);
       }
     };
@@ -28,15 +50,30 @@ const Article = () => {
   }, [category]);
 
   if (loading) {
-    return <Loader message="Fetching Articles..."/>;
+    return <Loader message="Fetching Articles..." />;
   }
 
   if (!article) {
-    return <div className="error">Article not found.</div>;
+    return (
+      <div className="fallback-container">
+        <ToastContainer />
+        <FallbackPage
+          title="Article Not Found"
+          message={
+            isOffline
+              ? 'You are offline, and no cached article is available for this category.'
+              : 'The requested article could not be found. Please try again later.'
+          }
+          redirectTo="/articles"
+          redirectText="Go Back to Articles"
+        />
+      </div>
+    );
   }
 
   return (
     <div className="article-container">
+      <ToastContainer />
       <motion.h1
         className="article-title"
         initial={{ opacity: 0, y: -20 }}
