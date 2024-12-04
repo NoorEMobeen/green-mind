@@ -58,7 +58,7 @@ const NavBar = () => {
           }}
           onClick={() => handleNavigation('/game')}
         >
-          🌿 Trivia Quiz
+        <img src="./images/green-logo.png" alt="Logo" style={{ width: '100px', height: 'auto' }} />
         </Typography>
 
         {/* Desktop Buttons */}
