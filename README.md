@@ -58,7 +58,6 @@ Run the development server:
 bash
 Copy code
 npm start  
-Access the application in your browser at http://localhost:3000.
 
 📊 Performance Benchmarks
 
