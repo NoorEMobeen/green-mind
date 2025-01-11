@@ -11,6 +11,7 @@ Lighthouse benchmarks: 95 Performance, 100 Accessibility, 96 Best Practices, 100
 Lazy Loading, Critical CSS, and Minimal JavaScript for efficient rendering.
 User Engagement: Gamified experience with feedback mechanisms and leaderboards.
 Accessibility & Inclusivity: Built with an inclusive design approach to ensure accessibility for all users.
+
 🛠️ Technology Stack
 
 Frontend
@@ -31,7 +32,9 @@ GreenMind is not just a trivia app — it’s a project built with a sustainabil
 Reducing JavaScript Load: Implements lazy loading, code splitting, and deferred scripts to reduce resource consumption.
 Progressive Enhancement: Ensures smooth performance even on low-spec devices or unstable networks.
 Energy-Efficient Design: Minimizes data transfer and optimizes runtime performance to reduce carbon footprint.
+
 🎯 Objective
+
 To create an engaging and eco-friendly trivia platform that educates users about sustainability while setting a benchmark for responsible web development.
 
 🛠️ Installation & Setup
@@ -72,7 +75,9 @@ First Contentful Paint (FCP): 0.2s
 Speed Index: 0.7s
 Total Blocking Time: 130ms
 Cumulative Layout Shift (CLS): 0.07
+
 🛡️ License
+
 This project is licensed under the MIT License. See the LICENSE file for details.
 
 🤝 Contributing
