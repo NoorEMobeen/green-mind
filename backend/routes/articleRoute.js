@@ -5,6 +5,11 @@ const Article = require('../models/Article');
 
 // Article.findOne({ category: "climate-change" }).then(console.log).catch(console.error);
 
+// Root endpoint
+router.get('/', (req, res) => {
+  res.send("Article routes are working. Use /categories to get all articles or /:category to get specific article");
+});
+
 // Endpoint to get category data
 router.get('/categories', async (req, res) => {
   try {
