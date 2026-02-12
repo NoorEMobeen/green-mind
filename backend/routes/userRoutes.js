@@ -49,14 +49,4 @@ router.post('/login', async (req, res) => {
     }
 });
 
-// Get leaderboard
-// router.get('/leaderboard', async (req, res) => {
-//     try {
-//         const leaderboard = await User.find().sort({ score: -1 }).select('username score');
-//         res.json(leaderboard);
-//     } catch (error) {
-//         res.status(500).json({ error: 'Failed to fetch leaderboard' });
-//     }
-// });
-
 module.exports = router;

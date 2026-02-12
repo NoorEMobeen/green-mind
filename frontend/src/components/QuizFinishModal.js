@@ -29,6 +29,7 @@ const QuizFinishModal = ({
         updateUserScore(user._id, category, score);
       }
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isOpen]);
 
   const updateUserScore = async (userId, category, score) => {

@@ -61,12 +61,6 @@ const Leaderboard = () => {
   if (loading) {
     return (
       <Loader message="Fetching data..."/>
-      // <Box className="loader-wrapper">
-      //   <CircularProgress size={60} />
-      //   <Typography variant="h6" className="loader-text">
-      //     <Loader message="Fetching data..." />
-      //   </Typography>
-      // </Box>
     );
   }
 
